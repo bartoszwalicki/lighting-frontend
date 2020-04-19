@@ -1,0 +1,19 @@
+.stripe {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  margin: 20px;
+  border: 1px solid white;
+  background-color: rgb(200, 200, 200);
+  border-radius: 10px;
+
+  .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
