@@ -1,6 +1,7 @@
 import React from "react";
 import "./Stripe.scss";
 import client from "../../utils/mqtt";
+import Toggle from 'react-toggle'
 
 export default class Stripe extends React.Component {
 
@@ -63,10 +64,15 @@ export default class Stripe extends React.Component {
                     <h3>{this.props.topic}</h3>
                     <h4>{this.state.currentValue}</h4>
                     <div className="buttons">
-                        <button onClick={() => this.handleClick("toggle")}>TOGGLE</button>
-                        <button onClick={() => this.handleClick("on")}>ON</button>
-                        <button onClick={() => this.handleClick("off")}>OFF</button>
+
                         <input value={this.state.currentValue} type="range" min="0" max="4095" onChange={this.handleManualValue} ></input>
+
+                        <Toggle
+                            className="toggle"
+                            checked={this.state.currentValue > 0}
+                            onChange={() => this.handleClick("toggle")} />
+
+
                     </div>
                 </div>
             )
