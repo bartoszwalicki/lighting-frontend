@@ -19,7 +19,6 @@ export default class Stripe extends React.Component {
     }
 
     getState = () => {
-        console.log(`Subscribing to: ${this.props.topic}`)
         client.subscribe(`${this.props.topic}/v`, function (err) {
             if (err) {
                 console.log("Something went wrong when subscribing to the topic.", err)
@@ -28,7 +27,6 @@ export default class Stripe extends React.Component {
 
         client.on('message', (topic, message) => {
             if (topic.indexOf(this.props.topic) > -1) {
-                console.log(topic);
                 this.setState({ currentValue: Number.parseInt(message, 10) })
             }
         })
@@ -39,17 +37,14 @@ export default class Stripe extends React.Component {
     handleClick = (type) => {
         switch (type) {
             case "toggle":
-                console.log("toggle");
                 client.publish(`${this.props.topic}/t`, "0");
                 break;
 
             case "on":
-                console.log("toggle");
                 client.publish(`${this.props.topic}/u`, "0");
                 break;
 
             case "off":
-                console.log("toggle");
                 client.publish(`${this.props.topic}/d`, "0");
                 break;
             default:
@@ -58,7 +53,6 @@ export default class Stripe extends React.Component {
     }
 
     handleManualValue(event) {
-        console.log(event.target.value);
         client.publish(`${this.props.topic}/s`, event.target.value.toString());
     }
 
@@ -72,7 +66,7 @@ export default class Stripe extends React.Component {
                         <button onClick={() => this.handleClick("toggle")}>TOGGLE</button>
                         <button onClick={() => this.handleClick("on")}>ON</button>
                         <button onClick={() => this.handleClick("off")}>OFF</button>
-                        <input type="range" min="0" max="4095" onChange={this.handleManualValue} ></input>
+                        <input value={this.state.currentValue} type="range" min="0" max="4095" onChange={this.handleManualValue} ></input>
                     </div>
                 </div>
             )
