@@ -1,9 +1,12 @@
 # build environment
-FROM node:12.16.1-buster-slim as build
+FROM node:12.16.3-alpine as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
 COPY package-lock.json ./
+RUN apk add --no-cache --virtual .gyp python make g++ \
+    && npm install node-sass \
+    && apk del .gyp
 RUN npm ci --silent
 RUN npm install react-scripts@3.4.1 -g --silent
 COPY . ./
