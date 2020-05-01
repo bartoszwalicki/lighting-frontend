@@ -1,0 +1,10 @@
+version: "3.7"
+
+services:
+  lighting-frontend:
+    container_name: lighting-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "1234:80"
