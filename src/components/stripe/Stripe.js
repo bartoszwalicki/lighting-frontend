@@ -2,7 +2,6 @@ import React from "react";
 import "./Stripe.scss";
 
 import Toggle from 'react-toggle'
-import { makeStyles } from '@material-ui/core/styles';
 import { Slider, Paper, CircularProgress } from '@material-ui/core';
 
 import client from "../../utils/mqtt";
