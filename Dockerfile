@@ -1,5 +1,5 @@
 # build environment
-FROM node:12.16.3-alpine as build
+FROM node:12.16.1-buster-slim as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
