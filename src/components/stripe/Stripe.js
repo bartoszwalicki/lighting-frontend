@@ -1,7 +1,12 @@
 import React from "react";
 import "./Stripe.scss";
-import client from "../../utils/mqtt";
+
 import Toggle from 'react-toggle'
+import { makeStyles } from '@material-ui/core/styles';
+import { Slider, Paper, CircularProgress } from '@material-ui/core';
+
+import client from "../../utils/mqtt";
+
 
 export default class Stripe extends React.Component {
 
@@ -53,33 +58,41 @@ export default class Stripe extends React.Component {
         }
     }
 
-    handleManualValue(event) {
-        client.publish(`${this.props.topic}/s`, event.target.value.toString());
+    handleManualValue(event, value) {
+        client.publish(`${this.props.topic}/s`, value.toString());
     }
 
     render() {
         if (this.state.currentValue !== null) {
             return (
-                <div className="stripe">
+                <Paper className="stripe">
                     <h3>{this.props.topic}</h3>
                     <h4>{this.state.currentValue}</h4>
-                    <div className="buttons">
 
-                        <input value={this.state.currentValue} type="range" min="0" max="4095" onChange={this.handleManualValue} ></input>
+                    <Slider
+                        className="slider"
+                        defaultValue={this.state.currentValue}
+                        value={this.state.currentValue}
+                        step={5}
+                        min={0}
+                        max={4095}
+                        onChangeCommitted={this.handleManualValue}
+                    />
 
-                        <Toggle
-                            className="toggle"
-                            checked={this.state.currentValue > 0}
-                            onChange={() => this.handleClick("toggle")} />
+
+                    <Toggle
+                        className="toggle"
+                        checked={this.state.currentValue > 0}
+                        onChange={() => this.handleClick("toggle")} />
 
 
-                    </div>
-                </div>
+
+                </Paper>
             )
         }
         return (
             <div className="stripe">
-                <h3>Loading...</h3>
+                <CircularProgress />
             </div>)
     }
 }
