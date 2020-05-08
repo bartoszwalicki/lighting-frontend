@@ -1,10 +1,12 @@
 import React from "react";
 import "./Stripe.scss";
 
-import Toggle from 'react-toggle'
 import { Slider, Paper, CircularProgress } from '@material-ui/core';
 
 import client from "../../utils/mqtt";
+
+import { ReactComponent as BulbOff } from './bulb-off.svg';
+import { ReactComponent as BulbOn } from './bulb-on.svg';
 
 
 export default class Stripe extends React.Component {
@@ -63,29 +65,29 @@ export default class Stripe extends React.Component {
 
     render() {
         if (this.state.currentValue !== null) {
+            let bulbIcon;
+            if (this.state.currentValue > 0) {
+                bulbIcon = <BulbOn />;
+            } else {
+                bulbIcon = <BulbOff />;
+            }
+
             return (
-                <Paper className="stripe">
-                    <h3>{this.props.topic}</h3>
-                    <h4>{this.state.currentValue}</h4>
+                <Paper className={`stripe ${this.state.currentValue > 0 ? 'on' : 'off'}`}>
+                    <h3 className="header">{this.props.topic}</h3>
+                    <div className="bulb-icon" onClick={() => this.handleClick("toggle")}>
+                        {bulbIcon}
+                    </div>
+                    <h4 className="value">{this.state.currentValue}</h4>
 
                     <Slider
                         className="slider"
-                        defaultValue={this.state.currentValue}
                         value={this.state.currentValue}
                         step={5}
                         min={0}
                         max={4095}
                         onChangeCommitted={this.handleManualValue}
                     />
-
-
-                    <Toggle
-                        className="toggle"
-                        checked={this.state.currentValue > 0}
-                        onChange={() => this.handleClick("toggle")} />
-
-
-
                 </Paper>
             )
         }
